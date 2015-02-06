@@ -1,0 +1,61 @@
+body {
+    font-family: "Gotham Rounded", Helvetica, Arial, sans-serif;
+    max-width: 800px;
+    margin: auto;
+    font-weight: 300;
+}
+
+a {
+    text-decoration: none;
+    color: #11a1e1;
+}
+
+header h1 {
+    font-weight: 100;
+    font-size: 64px;
+    margin: 64px 0 0;
+}
+
+nav {
+    width: 100%;
+    font-size: 20px;
+}
+
+nav ul {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    background-color: #eaeaea;
+}
+
+nav ul li {
+    list-style: none;
+    text-align: center;
+}
+
+nav ul li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #000;
+    -webkit-transition: background-color 0.2s;
+    -moz-transition: background-color 0.2s;
+    -ms-transition: background-color 0.2s;
+    -o-transition: background-color 0.2s;
+    transition: background-color 0.2s;
+}
+
+nav ul li a:hover {
+    background-color: #bcbcbc;
+}
+
+article {
+    margin: 20px 0;
+    padding: 20px;
+    border: 10px solid #F2F2F2;
+    background-color: #f9f9f9;
+}
