@@ -1,12 +1,16 @@
 <?php
 
+namespace Model;
+
 class Model
 {
+    private $db;
+
     private $columns;
 
     function __construct()
     {
-        Repository::getInstance('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASSWORD);
+        $this->db = new Repository('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASSWORD);
     }
 
     public function getData($page = 'index', $param = 1, $action = 'show')
@@ -43,10 +47,9 @@ class Model
         );
     }
 
-    static function get($query)
+    public function get($query)
     {
-        $db = Repository::getInstance();
-        $s = $db->prepare($query);
+        $s = $this->db->prepare($query);
         $s->execute();
         $result = $s->fetchAll();
         if (empty($result)){

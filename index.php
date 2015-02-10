@@ -1,11 +1,16 @@
 <?php
 
+require 'model/config.php';
 include_once('loader.php');
-@$url = $_GET['url'];
+if(isset($_GET['url'])){
+    $url = $_GET['url'];
+}else{
+    $url = 'index';
+}
 
-$model   = new Model();
-$view    = new View();
+$model   = new Model\Model();
+$view    = new View\View();
 
-$presenter = new Presenter($model, $view);
+$presenter = new \Presenter\Presenter($model, $view);
 
 echo $presenter->indexAction($url);

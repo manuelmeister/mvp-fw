@@ -1,5 +1,7 @@
 <?php
 
+namespace View;
+
 class View
 {
     public function page($page, array $args = array()){

@@ -1,5 +1,10 @@
 <?php
 
+namespace Presenter;
+
+use Model\Model;
+use View\View;
+
 class Presenter
 {
     private $model;

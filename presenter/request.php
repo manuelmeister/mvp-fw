@@ -1,5 +1,7 @@
 <?php
 
+namespace Presenter;
+
 class Request {
 
     private $url;
