@@ -2,11 +2,16 @@
 
 namespace Model;
 
+/**
+ * Class Model
+ * @package Model
+ */
 class Model
 {
+    /**
+     * @var Repository
+     */
     private $db;
-
-    private $columns;
 
     function __construct()
     {
@@ -15,7 +20,7 @@ class Model
 
     public function getData($page = 'index', $param = 1, $action = 'show')
     {
-        $output['header'] = $this->getHeader();
+        $output['header'] = $this->getModule('header');
         switch ($page) {
             case 'index':
                 $output['content'] = $this->get("SELECT * FROM ARTICLE");
@@ -34,17 +39,8 @@ class Model
                 ));
                 break;
         }
-        $output['footer'] = $this->getFooter();
+        $output['footer'] = $this->getModule('footer');
         return $output;
-    }
-
-    public function getSomeStuff()
-    {
-        return array(
-            'header' => '<h1>MVP</h1>',
-            'main' => '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquam blanditiis dicta dolores excepturi iusto maxime modi sequi sunt veritatis. Ab eaque hic labore nihil numquam quaerat quas velit veniam.</p>',
-            'footer' => '<p>&copy; meister.io</p>'
-        );
     }
 
     public function get($query)
@@ -69,11 +65,7 @@ class Model
         return $options;
     }
 
-    private function getHeader(){
-        return $this->processOptions($this->get("SELECT * FROM OPTIONS WHERE category='header'"));
-    }
-
-    private function getFooter(){
-        return $this->processOptions($this->get("SELECT * FROM OPTIONS WHERE category='footer'"));
+    private function getModule($module_category){
+        return $this->processOptions($this->get("SELECT * FROM OPTIONS WHERE category='$module_category'"));
     }
 }
