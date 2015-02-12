@@ -11,4 +11,12 @@ class Repository extends PDO {
         $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->cache = array();
     }
+
+    public function get($query){
+        $s = parent::prepare($query);
+        $s->execute();
+        $result = $s->fetchAll();
+        return $result;
+    }
+
 }

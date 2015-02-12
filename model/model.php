@@ -14,18 +14,27 @@ class Model
      */
     private $db;
 
+    /**
+     *
+     */
     function __construct()
     {
         $this->db = new Repository('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASSWORD);
     }
 
-    public function getData($page = 'index', $param = 1, $action = 'show')
+    /**
+     * @param string $page
+     * @param string $param
+     * @param string $action
+     * @return array
+     */
+    public function getData($page = 'index', $param = '1', $action = 'show')
     {
         $output['header'] = $this->getMetaModule('header');
         $classname = 'Meister\Model\Types\\'.ucfirst($page);
         if (class_exists($classname, $autoload = true)) {
             $contentModule = new $classname($param,$action);
-            $output['content'] = $this->get($contentModule->getQuery());
+            $output['content'] = $this->db->get($contentModule->getQuery());
         } else {
             $output['content'] = array(array(
                     'title'     => '404',
@@ -38,21 +47,10 @@ class Model
         return $output;
     }
 
-    public function get($query)
-    {
-        $s = $this->db->prepare($query);
-        $s->execute();
-        $result = $s->fetchAll();
-        if (empty($result)){
-            return array(array(
-                'title' => '<h1>404</h1>',
-                'content' => '<p>Page not found</p>',
-            ));
-        }else{
-            return $result;
-        }
-    }
-
+    /**
+     * @param array $args
+     * @return array
+     */
     private function processOptions(array $args = array()){
         foreach ($args as $option){
             $options[$option['name']] = $option['value'];
@@ -60,7 +58,11 @@ class Model
         return $options;
     }
 
+    /**
+     * @param $module_category
+     * @return array
+     */
     private function getMetaModule($module_category){
-        return $this->processOptions($this->get("SELECT * FROM OPTIONS WHERE category='$module_category'"));
+        return $this->processOptions($this->db->get("SELECT * FROM OPTIONS WHERE category='$module_category'"));
     }
 }
