@@ -1,6 +1,6 @@
 <?php
 
-namespace Presenter;
+namespace Meister\Presenter;
 
 class Request {
 
@@ -17,35 +17,18 @@ class Request {
     function process(){
         $this->url = rtrim($this->url, "/");
 
-        $exploded_url = explode("/",$this->url);
-        switch (sizeof($exploded_url)) {
-            case 3:
-                $this->page = $exploded_url[0];
-                $this->param = $exploded_url[1];
-                $this->action = $exploded_url[2];
-                break;
-            case 2:
-                $this->page = $exploded_url[0];
-                $this->param = $exploded_url[1];
-                break;
-            case 1:
-                $this->page = $exploded_url[0];
-                break;
-            default:
-                $this->page = 'index';
-                break;
-        }
+        $this->url = explode("/",$this->url);
     }
 
     public function getPage(){
-        return (empty($this->page)) ? 'index' : $this->page;
-    }
-
-    public function getAction(){
-        return (empty($this->action)) ? 'show' : $this->action;
+        return isset($this->url[0]) ? $this->url[0] : 'index';
     }
 
     public function getParam(){
-        return (empty($this->param)) ? '0' : $this->param;
+        return isset($this->url[1]) ? $this->url[1] : '1';
+    }
+
+    public function getAction(){
+        return isset($this->url[2]) ? $this->url[2] : 'show';
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace View;
+namespace Meister\View;
 
 class View
 {

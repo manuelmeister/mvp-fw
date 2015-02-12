@@ -1,9 +1,9 @@
 <?php
 
-namespace Presenter;
+namespace Meister\Presenter;
 
-use Model\Model;
-use View\View;
+use Meister\Model\Model;
+use Meister\View\View;
 
 class Presenter
 {

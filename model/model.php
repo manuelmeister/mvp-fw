@@ -1,6 +1,7 @@
 <?php
 
-namespace Model;
+namespace Meister\Model;
+use Meister\Model\Types\Types;
 
 /**
  * Class Model
@@ -20,26 +21,20 @@ class Model
 
     public function getData($page = 'index', $param = 1, $action = 'show')
     {
-        $output['header'] = $this->getModule('header');
-        switch ($page) {
-            case 'index':
-                $output['content'] = $this->get("SELECT * FROM ARTICLE");
-                break;
-            case 'article':
-                $output['content'] = $this->get("SELECT * FROM ARTICLE WHERE (ID='$param' OR slug='$param')");
-                break;
-            case 'page':
-                $output['content'] = $this->get("SELECT * FROM PAGE WHERE (ID='$param' OR slug='$param')");
-                break;
-            default:
-                $output['content'] = array(array(
+        $output['header'] = $this->getMetaModule('header');
+        $classname = 'Meister\Model\Types\\'.ucfirst($page);
+        if (class_exists($classname, $autoload = true)) {
+            $contentModule = new $classname($param,$action);
+            $output['content'] = $this->get($contentModule->getQuery());
+        } else {
+            $output['content'] = array(array(
                     'title'     => '404',
                     'content'   => '<p>Page not found</p>',
                     'slug'      => '404',
                 ));
-                break;
         }
-        $output['footer'] = $this->getModule('footer');
+
+        $output['footer'] = $this->getMetaModule('footer');
         return $output;
     }
 
@@ -65,7 +60,7 @@ class Model
         return $options;
     }
 
-    private function getModule($module_category){
+    private function getMetaModule($module_category){
         return $this->processOptions($this->get("SELECT * FROM OPTIONS WHERE category='$module_category'"));
     }
 }

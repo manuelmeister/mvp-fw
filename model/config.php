@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace Meister\Model;
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'mvp');
