@@ -15,7 +15,8 @@ class Index extends Types {
     public function getQuery(){
         echo $this->param;
         echo $this->numberOfItems;
-        return "SELECT * FROM ARTICLE ORDER BY ARTICLE.time DESC LIMIT $this->numberOfItems OFFSET ". (int) $this->param * $this->numberOfItems .";";
+        $offset = (((int) $this->param) * $this->numberOfItems) - $this->numberOfItems;
+        return "SELECT * FROM ARTICLE ORDER BY ARTICLE.time DESC LIMIT $this->numberOfItems OFFSET ". $offset .";";
     }
 
 }
