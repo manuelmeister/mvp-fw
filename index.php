@@ -8,8 +8,8 @@ use Meister\Presenter\Presenter;
 
 require 'model/config.php';
 include_once('loader.php');
-if(isset($_GET['url'])){
-    $url = $_GET['url'];
+if(isset($_SERVER['REQUEST_URI'])){
+    $url = $_SERVER['REQUEST_URI'];
 }else{
     $url = 'index';
 }

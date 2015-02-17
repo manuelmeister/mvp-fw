@@ -37,14 +37,14 @@ class Request {
      * this will trim and explode the url
      */
     function process(){
-        $this->url = explode("/",rtrim($this->url, "/"));
+        $this->url = explode("/",rtrim(ltrim($this->url, "/"), "/"));
     }
 
     /**
      * @return string get page type
      */
     public function getPage(){
-        return isset($this->url[0]) ? $this->url[0] : 'index';
+        return (isset($this->url[0]) && !empty($this->url[0])) ? $this->url[0] : 'index';
     }
 
     /**
