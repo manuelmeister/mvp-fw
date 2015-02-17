@@ -55,6 +55,7 @@ class Model
      * @return array
      */
     private function processOptions(array $args = array()){
+        $options = [];
         foreach ($args as $option){
             $options[$option['name']] = $option['value'];
         }

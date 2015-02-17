@@ -13,7 +13,7 @@ class Page extends Types {
     function getQuery()
     {
         if(is_numeric($this->param)){
-            return "SELECT * FROM PAGE WHERE ID='".(int) $this->param."'";
+            return "SELECT * FROM PAGE WHERE id='".(int) $this->param."'";
         }else {
             return "SELECT * FROM PAGE WHERE slug='$this->param'";
         }

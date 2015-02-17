@@ -13,7 +13,7 @@ class Article extends Types {
     function getQuery()
     {
         if(is_numeric($this->param)){
-            return "SELECT * FROM ARTICLE WHERE ID='".(int) $this->param."'";
+            return "SELECT * FROM ARTICLE WHERE id='".(int) $this->param."'";
         }else {
             return "SELECT * FROM ARTICLE WHERE slug='$this->param'";
         }

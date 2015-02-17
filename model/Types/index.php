@@ -9,8 +9,13 @@
 namespace Meister\Model\Types;
 
 class Index extends Types {
+
+    public $numberOfItems = 2;
+
     public function getQuery(){
-        return 'SELECT * FROM ARTICLE';
+        echo $this->param;
+        echo $this->numberOfItems;
+        return "SELECT * FROM ARTICLE ORDER BY ARTICLE.time DESC LIMIT $this->numberOfItems OFFSET ". (int) $this->param * $this->numberOfItems .";";
     }
 
 }
