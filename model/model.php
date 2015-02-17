@@ -10,7 +10,7 @@ use Meister\Model\Types\Types;
 class Model
 {
     /**
-     * @var Repository
+     * @var PDORepository
      */
     private $db;
 
@@ -19,7 +19,7 @@ class Model
      */
     function __construct()
     {
-        $this->db = new Repository('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASSWORD);
+        $this->db = new PDORepository('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASSWORD);
     }
 
     /**
@@ -32,9 +32,12 @@ class Model
     {
         $output['header'] = $this->getMetaModule('header');
         $classname = 'Meister\Model\Types\\'.ucfirst($page);
+
         if (class_exists($classname, $autoload = true)) {
+
             $contentModule = new $classname($param,$action);
             $output['content'] = $this->db->get($contentModule->getQuery());
+
         } else {
             $output['content'] = array(array(
                     'title'     => '404',
@@ -59,10 +62,10 @@ class Model
     }
 
     /**
-     * @param $module_category
+     * @param string $module_category
      * @return array
      */
     private function getMetaModule($module_category){
-        return $this->processOptions($this->db->get("SELECT * FROM OPTIONS WHERE category='$module_category'"));
+        return $this->processOptions($this->db->getOptions($module_category));
     }
 }
