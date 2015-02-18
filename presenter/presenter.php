@@ -23,7 +23,7 @@ class Presenter
     {
         $this->request = new Request($url);
 
-        $data = $this->model->getData($this->request->getPage(),$this->request->getParam(),$this->request->getAction());
+        $data = $this->model->getData($this->request->getPage(),$this->request->getParam(),$this->request->getActions());
         $page = $this->request->getPage();
 
         return $this->view->page($page, $data);
