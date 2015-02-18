@@ -28,22 +28,34 @@ class Model
      * @param string $action
      * @return array
      */
-    public function getData($page = 'index', $param = '1', $action = 'show')
+    public function getData($page, $param, $action)
     {
         $output['header'] = $this->getMetaModule('header');
         $classname = 'Meister\Model\Types\\'.ucfirst($page);
 
-        if (class_exists($classname, $autoload = true)) {
+        try {
+            if (class_exists($classname, $autoload = true)) {
+                $contentModule = new $classname($param,$action);
+                $tmp = $this->db->get($contentModule->getQuery());
+                if (!empty($tmp)) {
+                    $output['content'] = ($tmp);
+                } else {
+                    $output['content'] = (array(array(
+                        'title' => '404',
+                        'content' => "<p>" . ucfirst($page) . " \"$param\" not found</p>",
+                        'slug' => '404',
+                    )));
+                    header("HTTP/1.0 404 Not Found");
+                }
 
-            $contentModule = new $classname($param,$action);
-            $output['content'] = $this->db->get($contentModule->getQuery());
-
-        } else {
+            }
+        } catch(\Exception $e) {
             $output['content'] = array(array(
-                    'title'     => '404',
-                    'content'   => '<p>Page not found</p>',
-                    'slug'      => '404',
-                ));
+                'title'     => '404',
+                'content'   => "<p>".ucfirst($page)." not found</p>",
+                'slug'      => '404',
+            ));
+            header("HTTP/1.0 404 Not Found");
         }
 
         $output['footer'] = $this->getMetaModule('footer');
