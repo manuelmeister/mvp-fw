@@ -13,10 +13,10 @@ class Presenter
 
     private $request;
 
-    public function __construct(Model $model, View $view)
+    public function __construct()
     {
-        $this->model = $model;
-        $this->view = $view;
+        $this->model = new Model();
+        $this->view = new View();
     }
 
     public function indexAction($url)

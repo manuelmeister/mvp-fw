@@ -14,9 +14,6 @@ if(isset($_SERVER['REQUEST_URI'])){
     $url = 'index';
 }
 
-$model   = new Model();
-$view    = new View();
-
-$presenter = new Presenter($model, $view);
+$presenter = new Presenter();
 
 echo $presenter->indexAction($url);
