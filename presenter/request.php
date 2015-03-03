@@ -11,7 +11,12 @@ class Request {
     /**
      * @var array
      */
-    private $url;
+    private $request_uri_query;
+
+    /**
+     * @var array
+     */
+    private $request_uri;
     /**
      * @var string
      */
@@ -19,7 +24,7 @@ class Request {
     /**
      * @var string
      */
-    private $action;
+    private $actions;
     /**
      * @var string
      */
@@ -29,7 +34,7 @@ class Request {
      * @param $url
      */
     function __construct($url){
-        $this->url = $url;
+        $this->request_uri_query = $url;
         $this->process();
     }
 
@@ -37,27 +42,33 @@ class Request {
      * this will trim and explode the url
      */
     function process(){
-        $this->url = explode("/",rtrim(ltrim($this->url, "/"), "/"));
+        $this->request_uri_query = explode("?",$this->request_uri_query);
+        $this->request_uri = explode("/",rtrim(ltrim($this->request_uri_query[0], "/"), "/"));
     }
 
     /**
      * @return string get page type
      */
     public function getPage(){
-        return (isset($this->url[0]) && !empty($this->url[0])) ? $this->url[0] : 'index';
+        return (isset($this->request_uri[0]) && !empty($this->request_uri[0])) ? $this->request_uri[0] : 'index';
     }
 
     /**
      * @return string get slug or id of the content
      */
     public function getParam(){
-        return isset($this->url[1]) ? $this->url[1] : '1';
+        return isset($this->request_uri[1]) ? $this->request_uri[1] : '1';
     }
 
     /**
      * @return string get action
      */
-    public function getAction(){
-        return isset($this->url[2]) ? $this->url[2] : 'show';
+    public function getActions(){
+        if (isset($this->request_uri_query[1])) {
+            parse_str($this->request_uri_query[1], $this->actions);
+        } else {
+            $this->actions['action'] = 'show';
+        }
+        return $this->actions;
     }
 }
